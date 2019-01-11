@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aspirecn.dao.watch.SmartwatchUserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.aspirecn.pojo.watch.SmartwatchUserInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="phoneNum" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="xxt_id" jdbcType="INTEGER" property="xxtId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_status" jdbcType="TINYINT" property="userStatus" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="prop1" jdbcType="VARCHAR" property="prop1" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, phoneNum, xxt_id, user_id, user_name, user_status, add_time, modify_time, prop1,session_key
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.aspirecn.pojo.watch.SmartwatchUserInfo" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from smartwatch_user_info
+    where phoneNum = #{phoneNum} and user_status=1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from smartwatch_user_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.aspirecn.pojo.watch.SmartwatchUserInfo">
+    insert into smartwatch_user_info (id, phoneNum, xxt_id, 
+      user_id, user_name, user_status, 
+      add_time,session_key
+      )
+    values (null, #{phoneNum,jdbcType=VARCHAR}, #{xxtId,jdbcType=INTEGER},
+      #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 1,
+      now(),#{sessionKey}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.aspirecn.pojo.watch.SmartwatchUserInfo">
+    update smartwatch_user_info
+    <set>
+      <if test="phonenum != null">
+        phoneNum = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="xxtId != null">
+        xxt_id = #{xxtId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userStatus != null">
+        user_status = #{userStatus,jdbcType=TINYINT},
+      </if>
+      <if test="sessionKey != null">
+        session_key = #{sessionKey,jdbcType=VARCHAR},
+      </if>
+      modify_time = now(),
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aspirecn.pojo.watch.SmartwatchUserInfo">
+    update smartwatch_user_info
+    set phoneNum = #{phoneNum,jdbcType=VARCHAR},
+      xxt_id = #{xxtId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_status = #{userStatus,jdbcType=TINYINT},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      prop1 = #{prop1,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

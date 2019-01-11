@@ -1,0 +1,599 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>用户展示</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <meta name="keywords" content="Modern Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel='stylesheet' type='text/css'/>
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel='stylesheet' type='text/css'/>
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css"/>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+
+    <!-- Latest compiled and minified Locales -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-zh-CN.min.js"></script>
+
+</head>
+<body>
+<div id="wrapper">
+    <!-- Navigation -->
+    <nav class="top1 navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <input type="text" th:value="${userId}" id="userId"/>
+                <input type="text" th:value="${sessionKey}" id="sessionKey"/>
+                <input type="text" th:value="${childId}" id="childId"/>
+            </button>
+            <a class="navbar-brand" href="#" onclick="refresh();">儿童手表DEMO</a>
+        </div>
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li>
+                        <a href="#"><i class="fa fa-table nav_icon"></i>手表展示<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#" onclick="refresh();">用户展示</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+    <div id="page-wrapper">
+        <div class="col-md-12 graphs">
+            <div class="xs">
+                <div class="panel panel-warning" data-widget="{&quot;draggable&quot;: &quot;false&quot;}"
+                     data-widget-static="">
+                    <div class="panel-heading">
+                        <h2>宝贝列表</h2>
+                        <div class="panel-ctrls" data-actions-container=""
+                             data-action-collapse="{&quot;target&quot;: &quot;.panel-body&quot;}"><span
+                                class="button-icon has-bg"><i class="ti ti-angle-down"></i></span></div>
+                    </div>
+                    <div class="panel-body no-padding" style="display: block;">
+                        <table id="table" class="table table-striped">
+                        </table>
+                        <!-- 工具容器 -->
+                        <div id="toolbar" class="btn-group">
+                            <button id="btn_add" class="btn btn-primary btn-lg" data-toggle="modal"
+                                    data-target="#myModal">
+                                               <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加小孩
+                                           
+                            </button>
+                            <!--
+                            <button id="btn_edit" type="button" class="btn btn-default" onclick="">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>选择修改
+                            </button>
+                            <button id="btn_delete" type="button" class="btn btn-default" onclick="">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>选择删除
+                            </button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-100" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" style="display:none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">添加小孩</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" class="form" action="watch/addChild" method="post">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <td><label class="control-label">昵称：&nbsp;</label></td>
+                                <td>
+                                    <input type="text" id="nickName" class="form-control" name="nickName"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">手表的SIM卡号码：&nbsp;</label></td>
+                                <td>
+                                    <input type="text" class="form-control" th:name="phoneNum" id="phoneNum"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">绑定的手表IMEI：&nbsp;</label></td>
+                                <td>
+                                    <input type="text" name="IMEI" id="imei" class="form-control"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">家庭成员称呼：&nbsp;</label></td>
+                                <td>
+                                    <input type="text" name="callName" id="callName" class="form-control"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">头像Index：&nbsp;</label></td>
+                                <td>
+                                    <input type="text" name="imageIndex" id="imageIndex" class="form-control"/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" id="addSubmit" onclick="addChild();" class="btn btn-info"
+                                    data-dismiss="modal">提交更改
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- 模拟框结束  -->
+
+    <!-- 模态框（Modal）2 -->
+    <div class="modal fade" tabindex="-100" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true"
+         id="pop-reg" style="display:none;">
+        <div class="modal-dialog">
+            <div class="modal-content" id="pop-reg-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel1">绑定手表</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" class="form" action="" method="post">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <td><label class="control-label">手表的SIM卡号码：&nbsp;</label></td>
+                                <td>
+                                    <input type="text" class="form-control" th:name="phoneNum" id="phoneNum1"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">绑定的手表IMEI：&nbsp;</label></td>
+                                <td>
+                                    <input type="text" name="IMEI" id="imei1" class="form-control"/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" id="addSubmit1" onclick="bindingWatch();" class="btn btn-info"
+                                    data-dismiss="modal">提交更改
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 模拟框结束 2 -->
+    </div>
+    <!-- 模态框（Modal）3 -->
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true"
+         id="myModal2" style="display:none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel2">主界面详情</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel-body no-padding" style="display: block;">
+                        <!--<table id="table1" class="table table-striped">
+                        </table>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 模拟框结束 3 -->
+    </div>
+
+    <!-- /#wrapper -->
+    <!-- Nav CSS -->
+    <link href="css/custom.css" rel="stylesheet">
+    <script src="js/metisMenu.min.js"></script>
+    <script src="js/custom.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        $(function () {
+            var a = GetRequest();
+            $("#userId").val(a['userId']);
+            $("#sessionKey").val(a['sessionKey']);
+            queryList();
+
+        });
+        /*<![CDATA[*/
+        function queryList() {
+            var data = {
+                userId: $("#userId").val(),
+                sessionKey: $("#sessionKey").val()
+            };
+
+            $('#table').bootstrapTable({
+                ajax: function (request) {
+                    $.ajax({
+                        type: "post",
+                        url: "/watch/getChildList",
+                        contentType: "application/json;charset=utf-8",
+                        dataType: "json",
+                        data: JSON.stringify(data),
+                        success: function (msg) {
+                            request.success({
+                                row: msg.data
+                            });
+                            $('#table').bootstrapTable('load', msg.data);
+                        },
+                        error: function () {
+                            alert("服务器异常，请重试");
+                        }
+                    });
+                },
+
+                toolbar: '#toolbar',
+                singleSelect: false,
+                clickToSelect: true,
+                sortName: "id",
+                sortOrder: "asc",
+                pageSize: 10,
+                pageNumber: 1,
+                pageList: "[10, 25, 50, 100, All]",
+                showToggle: false,
+                showRefresh: false,
+                showColumns: false,
+                search: true,
+                pagination: true,
+                columns: [{
+                    field: 'ChildId',
+                    title: '宝贝ID',
+                    switchable: true
+                }, {
+                    field: 'NickName',
+                    title: '昵称',
+                    switchable: true
+                }, {
+                    field: 'Sex',
+                    title: '性别',
+                    switchable: true,
+                    formatter: function (value, row, index) {
+                        if (value == 1) {
+                            return "男";
+                        }
+                        if (value == 2) {
+                            return "女";
+                        }
+                        if (value == 0) {
+                            return "未知";
+                        }
+                    }
+                }, {
+                    field: 'PhoneNum',
+                    title: '手表的SIM卡号码',
+                    switchable: true
+                }, {
+                    field: 'WatchId',
+                    title: '绑定的手表IMEI',
+                    switchable: true
+                }, {
+                    field: 'ImageUrl',
+                    title: '头像Url',
+                    switchable: true
+                }, {
+                    field: 'index',
+                    title: '信号',
+                    switchable: true,
+                    formatter:function (value,row,index) {
+                        return value[0].Signals;
+                    }
+
+                }, {
+                    field: 'index',
+                    title: '电量',
+                    switchable: true,
+                    formatter:function (value,row,index) {
+                        return value[0].Battery;
+                    }
+
+                },{
+                    field: 'Button',
+                    title: '绑定',
+                    formatter: function (value, row, index) {
+                        var html = '<button onclick="tobindingWatch(' + row.ChildId + ')" class="btn btn-default">绑定手表</button>' +
+                            '&nbsp;&nbsp;&nbsp;<button type="button" onclick="updateFamilyNumFollow(' + row.ChildId + ')" class="btn btn-default">删除宝贝</button>'
+                        ;
+                        if (row.WatchId != null && row.WatchId != "") {
+                            html = '<button id="tableId" type="button" onclick="unbindWatch(' + row.ChildId + ',)" class="btn btn-default">解除绑定</button>' +
+                                '&nbsp;&nbsp;&nbsp;<button onclick="getMainInterface(' + row.ChildId + ')" class="btn btn-default">位置信息</button>'
+                            ;
+                        }
+                        return html;
+                    }
+                }]
+            });
+
+
+        }
+
+        function getMainInterface(childId) {
+            // $('#myModal2').modal('show');
+
+            var data = {
+                userId: $("#userId").val(),
+                sessionKey: $("#sessionKey").val(),
+                childId: childId
+            };
+
+
+            $.ajax({
+                type: "post",
+                url: "/watch/getMainInterface",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(data),
+                success: function (msg) {
+                    // var point = new BMap.Point(116.404, 39.915);
+                    window.open("typography.html?Lat="+msg.data[0].Lat + "&Lng="+msg.data[0].Lng);
+                    // window.open("typography.html?Lat=116.404&Lng=39.915");
+                },
+                error: function () {
+                    alert("服务器异常，请重试");
+                }
+            });
+            // $('#table1').bootstrapTable({
+            //     ajax: function (request) {
+            //         $.ajax({
+            //             type: "post",
+            //             url: "/watch/getMainInterface",
+            //             contentType: "application/json;charset=utf-8",
+            //             dataType: "json",
+            //             data: JSON.stringify(data),
+            //             success: function (msg) {
+            //                 request.success({
+            //                     row: msg.data
+            //                 });
+            //                 $('#table').bootstrapTable('load', msg.data);
+            //             },
+            //             error: function () {
+            //                 alert("服务器异常，请重试");
+            //             }
+            //         });
+            //     },
+            //
+            //     singleSelect: false,
+            //     clickToSelect: true,
+            //     sortName: "id",
+            //     sortOrder: "asc",
+            //     pageSize: 10,
+            //     pageNumber: 1,
+            //     pageList: "[10, 25, 50, 100, All]",
+            //     showToggle: false,
+            //     showRefresh: false,
+            //     showColumns: false,
+            //     search: false,
+            //     pagination: true,
+            //     columns: [{
+            //         field: 'ChildId',
+            //         title: '宝贝ID',
+            //         switchable: true
+            //     }, {
+            //         field: 'PhoneNum',
+            //         title: '手表的SIM卡号码',
+            //         switchable: true
+            //     }, {
+            //         field: 'WatchId',
+            //         title: '绑定的手表IMEI',
+            //         switchable: true
+            //     }, {
+            //         field: 'NickName',
+            //         title: '昵称',
+            //         switchable: true
+            //     }, {
+            //         field: 'Sex',
+            //         title: '性别',
+            //         switchable: true,
+            //         formatter: function (value, row, index) {
+            //             if (value == 1) {
+            //                 return "男";
+            //             }
+            //             if (value == 2) {
+            //                 return "女";
+            //             }
+            //             if (value == 0) {
+            //                 return "未知";
+            //             }
+            //         }
+            //     }, {
+            //         field: 'ImageUrl',
+            //         title: '头像Url',
+            //         switchable: true
+            //     }, {
+            //         field: 'Lat',
+            //         title: '纬度',
+            //         switchable: true
+            //     }, {
+            //         field: 'Lng',
+            //         title: '经度',
+            //         switchable: true
+            //     }, {
+            //         field: 'ActionType',
+            //         title: '动作类型',
+            //         switchable: true,
+            //         formatter: function (value, row, index) {
+            //             if (value == 0) {
+            //                 return "自动定位";
+            //             }
+            //             if (value == 1) {
+            //                 return "实时定位";
+            //             }
+            //             if (value == 2) {
+            //                 return "实时定位预先返回";
+            //             }
+            //         }
+            //     }, {
+            //         field: 'Accuracy',
+            //         title: '最小精度',
+            //         switchable: true
+            //     }, {
+            //         field: 'TimeInterval',
+            //         title: '最后定位时间',
+            //         switchable: true
+            //     }, {
+            //         field: 'Signals',
+            //         title: '信号',
+            //         switchable: true
+            //     }, {
+            //         field: 'Battery',
+            //         title: '电量',
+            //         switchable: true
+            //     }],
+            // });
+
+
+        }
+
+
+
+
+        function tobindingWatch(childId) {
+            $("#childId").val(childId);
+            $('#pop-reg').modal('show');
+        }
+
+        function bindingWatch() {
+            //发送表单ajax请求
+            var data = {
+                phoneNum: $("#phoneNum1").val(),
+                imei: $("#imei1").val(),
+                userId: $("#userId").val(),
+                sessionKey: $("#sessionKey").val(),
+                childId: $("#childId").val()
+            };
+            $.ajax({
+                url: "/watch/bindingWatch",
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: "application/json",
+                success: function (data) {
+                    alert(data.errMsg);
+                    refresh();
+                }
+            });
+        }
+
+        function unbindWatch(childId) {
+            var data = {
+                userId: $("#userId").val(),
+                sessionKey: $("#sessionKey").val(),
+                childId: childId
+            };
+            $.ajax({
+                url: "/watch/unbindWatch",
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: "application/json",
+                success: function (data) {
+                    alert(data.errMsg);
+                    refresh();
+                }
+            });
+        }
+
+        function updateFamilyNumFollow(childId) {
+            var data = {
+                userId: $("#userId").val(),
+                sessionKey: $("#sessionKey").val(),
+                childId: childId,
+                followFlag: 1
+            };
+            $.ajax({
+                url: "/watch/updateFamilyNumFollow",
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: "application/json",
+                success: function (data) {
+                    alert(data.errMsg);
+                    refresh();
+                }
+            });
+        }
+
+        function addChild() {
+            //发送表单ajax请求
+            var data = {
+                nickName: $("#nickName").val(),
+                phoneNum: $("#phoneNum").val(),
+                imei: $("#imei").val(),
+                imageIndex: $("#imageIndex").val(),
+                callName: $("#callName").val(),
+                userId: $("#userId").val(),
+                sessionKey: $("#sessionKey").val()
+            };
+            $.ajax({
+                url: "/watch/addChild",
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: "application/json",
+                success: function (data) {
+                    alert(data.errMsg);
+                    refresh();
+                }
+            });
+        }
+        function refresh() {
+            window.location.href=("basic_tables.html?userId="+$("#userId").val() + "&sessionKey="+$("#sessionKey").val());
+        }
+
+        function GetRequest() {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    theRequest[strs[i].split("=")[0]] = decodeURIComponent(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+
+
+        /*]]>*/
+
+
+    </script>
+
+</body>
+</html>

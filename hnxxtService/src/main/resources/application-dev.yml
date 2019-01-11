@@ -1,0 +1,16 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://10.2.98.14:3306/hnxxt?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&rewriteBatchedStatements=true
+    username: hnxxt_usr
+    password: hnxxt2019DEV
+    driver-class-name: com.mysql.jdbc.Driver
+kido:
+  url: http://devhnhjy.enjoykido.com:8813/Service/HJYService.asmx/
+
+
+
+

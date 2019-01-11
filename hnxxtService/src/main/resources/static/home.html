@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>主页</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css"/>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+
+    <!-- Latest compiled and minified Locales -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-zh-CN.min.js"></script>
+</head>
+<body style="margin-left: 5%;margin-right: 5%">
+<div class="panel panel-primary">
+    <input type="text" th:value="${userId}" id="userId"/>
+    <input type="text" th:value="${sessionKey}" id="sessionKey"/>
+</div>
+<div>
+
+    <table id="table">
+    </table>
+</div>
+
+<script type="text/javascript"  th:inline="javascript">
+    $(function () {
+        $("#name1").html("工号：" + $("#name").val());
+        // queryList();
+        var a = GetRequest();
+        $("#userId").val(a['userId']);
+        $("#sessionKey").val(a['sessionKey']);
+
+    });
+    function GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = decodeURIComponent(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    function queryList() {
+        var data = {
+            evoNo: $("#name").val()
+        };
+
+        $('#table').bootstrapTable({
+            ajax: function (request) {
+                $.ajax({
+                    type: "post",
+                    url: "/eva/queryEva",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function (msg) {
+                        request.success({
+                            row: msg.list
+                        });
+                        $('#table').bootstrapTable('load', msg.list);
+                    },
+                    error: function () {
+                        alert("服务器异常，请重试");
+                    }
+                });
+            },
+
+            toolbar: '#toolbar',
+            singleSelect: false,
+            clickToSelect: true,
+            sortName: "id",
+            sortOrder: "asc",
+            pageSize: 10,
+            pageNumber: 1,
+            pageList: "[10, 25, 50, 100, All]",
+            showToggle: false,
+            showRefresh: false,
+            showColumns: false,
+            search: true,
+            pagination: true,
+            columns: [{
+                field: 'no',
+                title: '工号',
+                switchable: true
+            }, {
+                field: 'name',
+                title: '被测评人',
+                switchable: true
+            }, {
+                field: 'roleType',
+                title: '角色',
+                switchable: true,
+                formatter: function (value, row, index) {
+                    if (value == 1) {
+                        return "总监";
+                    }
+                    if (value == 2) {
+                        return "TL/技术项目经理";
+                    }
+                    if (value == 3) {
+                        return "项目成员";
+                    }
+                }
+            }, {
+                field: 'status',
+                title: '测评状态',
+                switchable: true,
+                formatter: function (value, row, index) {
+                    if (value == 0) {
+                        return "未测评";
+                    }
+                    if (value == 1) {
+                        return "已测评";
+                    }
+                }
+            }, {
+                field: 'Button',
+                title: '测评',
+                formatter: function (value, row, index) {
+                    if (row.status == 1) {
+                        return "已测评";
+                    }
+                    return '<button id="tableId" type="button" onclick="operateEvents(' + row.id + ',' + row.roleType + ')" class="btn btn-default">测评</button>'
+                }
+            }],
+        });
+
+
+    }
+    /*<![CDATA[*/
+    function operateEvents(id, roleType) {
+        var data = {
+            id: id,
+            roleType: roleType
+        };
+        window.location.href = "/eva/questionnaire?id=" + id + "&code=" + $("#code").val();
+    }
+    /*]]>*/
+
+
+</script>
+</body>
+</html>

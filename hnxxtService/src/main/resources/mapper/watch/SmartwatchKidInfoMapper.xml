@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aspirecn.dao.watch.SmartwatchKidInfoMapper">
+  <resultMap id="BaseResultMap" type="com.aspirecn.pojo.watch.SmartwatchKidInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="child_id" jdbcType="INTEGER" property="childId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="parent_xxt_id" jdbcType="INTEGER" property="parentXxtId" />
+    <result column="nickName" jdbcType="VARCHAR" property="nickname" />
+    <result column="sex" jdbcType="TINYINT" property="sex" />
+    <result column="phone_num" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="watch_id" jdbcType="VARCHAR" property="watchId" />
+    <result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, child_id, user_id, parent_xxt_id, nickName, sex, phone_num, watch_id, image_url
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from smartwatch_kid_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from smartwatch_kid_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.aspirecn.pojo.watch.SmartwatchKidInfo">
+    insert into smartwatch_kid_info (id, child_id, user_id,
+      parent_xxt_id, nickName, sex, 
+      phone_num, watch_id, image_url
+      )
+    values (#{id,jdbcType=INTEGER}, #{childId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{parentXxtId,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, 
+      #{phoneNum,jdbcType=VARCHAR}, #{watchId,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.aspirecn.pojo.watch.SmartwatchKidInfo">
+    insert into smartwatch_kid_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="childId != null">
+        child_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="parentXxtId != null">
+        parent_xxt_id,
+      </if>
+      <if test="nickname != null">
+        nickName,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="phoneNum != null">
+        phone_num,
+      </if>
+      <if test="watchId != null">
+        watch_id,
+      </if>
+      <if test="imageUrl != null">
+        image_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="childId != null">
+        #{childId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="parentXxtId != null">
+        #{parentXxtId,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="phoneNum != null">
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="watchId != null">
+        #{watchId,jdbcType=VARCHAR},
+      </if>
+      <if test="imageUrl != null">
+        #{imageUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aspirecn.pojo.watch.SmartwatchKidInfo">
+    update smartwatch_kid_info
+    <set>
+      <if test="childId != null">
+        child_id = #{childId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="parentXxtId != null">
+        parent_xxt_id = #{parentXxtId,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null">
+        nickName = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="phoneNum != null">
+        phone_num = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="watchId != null">
+        watch_id = #{watchId,jdbcType=VARCHAR},
+      </if>
+      <if test="imageUrl != null">
+        image_url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aspirecn.pojo.watch.SmartwatchKidInfo">
+    update smartwatch_kid_info
+    set child_id = #{childId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      parent_xxt_id = #{parentXxtId,jdbcType=INTEGER},
+      nickName = #{nickname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=TINYINT},
+      phone_num = #{phoneNum,jdbcType=VARCHAR},
+      watch_id = #{watchId,jdbcType=VARCHAR},
+      image_url = #{imageUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,11 @@
+#server.context-path: /Evaluation
+spring:
+  profiles:
+    active: dev
+  application:
+    name: hnxxtService
+  http:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+logging.level.com.aspirecn.dao: debug
